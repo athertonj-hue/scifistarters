@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SciFiStarters.org | Research-Backed Movie Starters for Science Teachers</title>
+  <style>
+    :root {
+      --primary: #0f172a;
+      --accent: #2563eb;
+      --accent-light: #eff6ff;
+      --warn-bg: #fef3c7;
+      --warn-border: #f59e0b;
+      --warn-text: #92400e;
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --text: #1e293b;
+      --muted: #64748b;
+      --border: #e2e8f0;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+    }
+
+    /* Header */
+    header {
+      background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+      color: #ffffff;
+      padding: 2.5rem 1.25rem;
+      text-align: center;
+    }
+    .badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.3);
+      padding: 0.3rem 0.85rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      margin-bottom: 0.9rem;
+    }
+    header h1 {
+      font-size: clamp(1.9rem, 4vw, 2.8rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.6rem;
+    }
+    header p.subtitle {
+      max-width: 720px;
+      margin: 0 auto 1.25rem;
+      font-size: 1.05rem;
+      color: #dbeafe;
+    }
+    .credits-pill {
+      display: inline-block;
+      background: rgba(15, 23, 42, 0.55);
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      color: #e2e8f0;
+    }
+    .credits-pill strong { color: #ffffff; }
+
+    /* Main Container */
+    .container {
+      max-width: 1140px;
+      margin: 0 auto;
+      padding: 1.5rem 1.25rem 3rem;
+    }
+
+    /* Search & Filter Bar */
+    .controls {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.25rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.85rem;
+    }
+    @media (min-width: 768px) {
+      .controls {
+        grid-template-columns: 2fr 1fr 1fr;
+      }
+    }
+    input[type="text"], select {
+      width: 100%;
+      padding: 0.7rem 0.9rem;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      background: #fff;
+      color: var(--text);
+    }
+    input[type="text"]:focus, select:focus {
+      outline: 2px solid var(--accent);
+      border-color: var(--accent);
+    }
+
+    .results-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    /* Cards Grid */
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
+    }
+    @media (min-width: 820px) {
+      .grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.4rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+    }
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-bottom: 0.75rem;
+    }
+    .tag {
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.25rem 0.6rem;
+      border-radius: 6px;
+      background: var(--accent-light);
+      color: var(--accent);
+    }
+    .tag.age {
+      background: #f1f5f9;
+      color: #334155;
+    }
+    .card h2 {
+      font-size: 1.25rem;
+      color: var(--primary);
+      margin-bottom: 0.2rem;
+    }
+    .topic-line {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 0.9rem;
+    }
+    .section-block {
+      margin-bottom: 0.85rem;
+      font-size: 0.93rem;
+    }
+    .section-label {
+      font-weight: 700;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--muted);
+      display: block;
+      margin-bottom: 0.15rem;
+    }
+    .misconception-box {
+      background: var(--warn-bg);
+      border-left: 4px solid var(--warn-border);
+      padding: 0.75rem 0.9rem;
+      border-radius: 6px;
+      margin-bottom: 0.9rem;
+      font-size: 0.9rem;
+      color: #451a03;
+    }
+    .misconception-box strong {
+      color: var(--warn-text);
+      display: block;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 0.2rem;
+    }
+    .question-box {
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      padding: 0.85rem;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+    }
+    .question-box strong {
+      display: block;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--primary);
+      margin-bottom: 0.25rem;
+    }
+    .project-btn {
+      width: 100%;
+      background: var(--primary);
+      color: #ffffff;
+      border: none;
+      padding: 0.7rem 1rem;
+      border-radius: 8px;
+      font-size: 0.92rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s ease;
+    }
+    .project-btn:hover { background: var(--accent); }
+
+    /* Research & Wipro Acknowledgement Section */
+    .about-section {
+      margin-top: 3rem;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2rem;
+    }
+    .about-section h2 {
+      font-size: 1.4rem;
+      color: var(--primary);
+      margin-bottom: 0.75rem;
+    }
+    .about-section p {
+      margin-bottom: 0.9rem;
+      color: #334155;
+      font-size: 0.97rem;
+    }
+    .wipro-callout {
+      background: var(--accent-light);
+      border-left: 4px solid var(--accent);
+      padding: 1rem 1.2rem;
+      border-radius: 6px;
+      margin-top: 1rem;
+    }
+
+    /* Fullscreen Whiteboard Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: #0f172a;
+      color: #ffffff;
+      z-index: 1000;
+      padding: 2rem;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+    .modal.open { display: flex; }
+    .modal-meta {
+      color: #93c5fd;
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 1.25rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .modal-question {
+      font-size: clamp(1.6rem, 4vw, 3.1rem);
+      font-weight: 700;
+      max-width: 960px;
+      line-height: 1.3;
+      margin-bottom: 2.5rem;
+    }
+    .close-btn {
+      background: #ffffff;
+      color: #0f172a;
+      border: none;
+      padding: 0.8rem 1.6rem;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="badge">OPEN-ACCESS GLOBAL SCIENCE RESOURCE • COPYRIGHT-SAFE</div>
+  <h1>SciFiStarters.org</h1>
+  <p class="subtitle">
+    Research-backed film &amp; sci-fi lesson starters for primary and secondary science teachers. Find the exact scene, spot the plausible misconception, and project a ready-made starter question in seconds.
+  </p>
+  <div class="credits-pill">
+    Based on research by <strong>Justin Atherton &amp; Dr Heather King</strong> (King’s College London) in <em>School Science Review</em> • Supported by <strong>Wipro</strong>
+  </div>
+</header>
+
+<main class="container">
+  <!-- Filter & Search Controls -->
+  <section class="controls" aria-label="Filter science starters">
+    <input type="text" id="searchInput" placeholder="Search film, topic, or keyword (e.g., magnets, WALL-E, cells, gravity)..." />
+    <select id="ageFilter">
+      <option value="All">All Ages (5–18)</option>
+      <option value="Primary">Primary (Ages 5–11)</option>
+      <option value="Lower Secondary">Lower Secondary (Ages 11–14)</option>
+      <option value="Upper Secondary">Upper Secondary (Ages 14–18)</option>
+    </select>
+    <select id="subjectFilter">
+      <option value="All">All Science Disciplines</option>
+      <option value="Physics">Physics</option>
+      <option value="Chemistry">Chemistry</option>
+      <option value="Biology">Biology</option>
+      <option value="Earth & Space">Earth &amp; Space</option>
+    </select>
+  </section>
+
+  <div class="results-bar">
+    <span id="resultsCount">Showing 9 starter clips</span>
+    <span>Tip: Look up "Which Bit" on YouTube, DVD, or your streaming library—zero broken links.</span>
+  </div>
+
+  <!-- Cards Container -->
+  <section class="grid" id="cardsGrid"></section>
+
+  <!-- Research & Wipro Acknowledgement -->
+  <section class="about-section" id="about">
+    <h2>From Classroom Research to Global Practice</h2>
+    <p>
+      <strong>SciFiStarters.org</strong> translates findings from MA Science Education research conducted by <strong>Justin Atherton</strong> and <strong>Dr Heather King</strong> at <strong>King’s College London</strong>, published in the Association for Science Education’s <em>School Science Review</em> (Issue 398): <em>"The use of science fiction clips as lesson starter activities"</em>.
+    </p>
+    <p>
+      Classroom trials showed that short film clips spark high engagement, but only succeed when teachers frame them with targeted questioning to stop students accepting plausible-looking Hollywood pseudo-science. Every entry here is designed to remove teacher prep time while protecting scientific accuracy.
+    </p>
+    <div class="wipro-callout">
