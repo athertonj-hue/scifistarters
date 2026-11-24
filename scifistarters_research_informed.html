@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SciFiStarters.org | Research-Informed Movie Starters for Science Teachers</title>
+<style>
+:root { --primary:#0f172a; --accent:#2563eb; --accent-light:#eff6ff; --warn-bg:#fef3c7; --warn-border:#f59e0b; --warn-text:#92400e; --bg:#f8fafc; --card:#ffffff; --text:#1e293b; --muted:#64748b; --border:#e2e8f0; }
+* { box-sizing:border-box; margin:0; padding:0; }
+body { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; background:var(--bg); color:var(--text); line-height:1.55; }
+header { background:linear-gradient(135deg,#0f172a 0%,#1e3a8a 100%); color:#fff; padding:2.5rem 1.25rem; text-align:center; }
+.badge { display:inline-block; background:rgba(255,255,255,0.15); border:1px solid rgba(255,255,255,0.3); padding:0.3rem 0.85rem; border-radius:999px; font-size:0.8rem; font-weight:600; margin-bottom:0.9rem; }
+header h1 { font-size:clamp(1.9rem,4vw,2.8rem); font-weight:800; margin-bottom:0.6rem; }
+header p.subtitle { max-width:720px; margin:0 auto 1.25rem; font-size:1.05rem; color:#dbeafe; }
+.credits-pill { display:inline-block; background:rgba(15,23,42,0.55); padding:0.5rem 1rem; border-radius:8px; font-size:0.85rem; color:#e2e8f0; }
+.credits-pill strong { color:#fff; }
+.credits-pill a { color:#93c5fd; text-decoration:underline; }
+.container { max-width:1140px; margin:0 auto; padding:1.5rem 1.25rem 3rem; }
+.controls { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:1.25rem; margin-bottom:1.5rem; display:grid; grid-template-columns:1fr; gap:0.85rem; }
+@media (min-width:768px) { .controls { grid-template-columns:2fr 1fr 1fr; } }
+input, select { width:100%; padding:0.7rem 0.9rem; border:1px solid #cbd5e1; border-radius:8px; font-size:0.95rem; background:#fff; color:var(--text); }
+.results-bar { display:flex; justify-content:space-between; flex-wrap:wrap; gap:0.5rem; margin-bottom:1rem; font-size:0.9rem; color:var(--muted); }
+.grid { display:grid; grid-template-columns:1fr; gap:1.25rem; }
+@media (min-width:820px) { .grid { grid-template-columns:repeat(2,1fr); } }
+.card { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:1.4rem; display:flex; flex-direction:column; justify-content:space-between; box-shadow:0 2px 8px rgba(15,23,42,0.04); }
+.tags { display:flex; flex-wrap:wrap; gap:0.4rem; margin-bottom:0.75rem; }
+.tag { font-size:0.75rem; font-weight:700; padding:0.25rem 0.6rem; border-radius:6px; background:var(--accent-light); color:var(--accent); }
+.tag.age { background:#f1f5f9; color:#334155; }
+.card h2 { font-size:1.25rem; color:var(--primary); margin-bottom:0.2rem; }
+.topic-line { font-size:0.9rem; font-weight:600; color:var(--accent); margin-bottom:0.9rem; }
+.section-block { margin-bottom:0.85rem; font-size:0.93rem; }
+.section-label { font-weight:700; font-size:0.78rem; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:0.15rem; }
+.misconception-box { background:var(--warn-bg); border-left:4px solid var(--warn-border); padding:0.75rem 0.9rem; border-radius:6px; margin-bottom:0.9rem; font-size:0.9rem; color:#451a03; }
+.misconception-box strong { color:var(--warn-text); display:block; font-size:0.78rem; text-transform:uppercase; margin-bottom:0.2rem; }
+.question-box { background:#f8fafc; border:1px solid #cbd5e1; padding:0.85rem; border-radius:8px; margin-bottom:1rem; }
+.question-box strong { display:block; font-size:0.78rem; text-transform:uppercase; color:var(--primary); margin-bottom:0.25rem; }
+.answer-box { background:#ecfdf5; border:1px solid #a7f3d0; padding:0.85rem; border-radius:8px; margin:0.75rem 0 1rem; font-size:0.92rem; }
+.answer-box summary { cursor:pointer; font-weight:700; color:#065f46; }
+.answer-box p { margin-top:0.55rem; color:#064e3b; }
+.project-btn { width:100%; background:var(--primary); color:#fff; border:none; padding:0.7rem 1rem; border-radius:8px; font-size:0.92rem; font-weight:600; cursor:pointer; }
+.project-btn:hover { background:var(--accent); }
+.about-section { margin-top:3rem; background:var(--card); border:1px solid var(--border); border-radius:12px; padding:2rem; }
+.about-section h2 { font-size:1.4rem; color:var(--primary); margin-bottom:0.75rem; }
+.about-section p { margin-bottom:0.9rem; color:#334155; font-size:0.97rem; }
+.wipro-callout { background:var(--accent-light); border-left:4px solid var(--accent); padding:1rem 1.2rem; border-radius:6px; margin-top:1rem; }
+.modal { display:none; position:fixed; inset:0; background:#0f172a; color:#fff; z-index:1000; padding:2rem; flex-direction:column; justify-content:center; align-items:center; text-align:center; }
+.modal.open { display:flex; }
+.modal-meta { color:#93c5fd; font-size:1.1rem; font-weight:600; margin-bottom:1.25rem; text-transform:uppercase; }
+.modal-question { font-size:clamp(1.6rem,4vw,3.1rem); font-weight:700; max-width:960px; line-height:1.3; margin-bottom:2.5rem; }
+.close-btn { background:#fff; color:#0f172a; border:none; padding:0.8rem 1.6rem; border-radius:8px; font-size:1rem; font-weight:700; cursor:pointer; }
+
+/* Search sidebar and responsive clip library */
+.library-layout { display:grid; grid-template-columns:260px minmax(0,1fr); gap:1.5rem; align-items:start; }
+.controls { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:1.2rem; display:flex; flex-direction:column; gap:0.65rem; position:sticky; top:1rem; }
+.filter-heading { color:var(--primary); font-size:1.15rem; margin-bottom:0.25rem; }
+.control-label { color:var(--muted); font-size:0.8rem; font-weight:700; margin-top:0.25rem; }
+.controls input, .controls select { min-width:0; }
+.reset-btn { background:#e2e8f0; color:#1e293b; border:0; border-radius:8px; padding:0.65rem 0.9rem; font-weight:700; cursor:pointer; margin-top:0.35rem; }
+.reset-btn:hover { background:#cbd5e1; }
+.library-results { min-width:0; }
+.results-bar { align-items:center; }
+@media (max-width:819px) {
+  .library-layout { grid-template-columns:1fr; }
+  .controls { position:static; }
+}
+@media (min-width:820px) {
+  .grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+}
+
+
+/* Curriculum framework and timestamp transparency */
+.curriculum-section { margin-top:2rem; background:var(--card); border:1px solid var(--border); border-radius:12px; padding:1.6rem; }
+.curriculum-section h2 { color:var(--primary); font-size:1.4rem; margin-bottom:.45rem; }
+.curriculum-intro { color:#475569; margin-bottom:1rem; }
+.curriculum-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:.8rem; margin:1rem 0; }
+.curriculum-card { border:1px solid var(--border); border-radius:9px; padding:1rem; background:#fff; }
+.curriculum-card h3 { color:var(--primary); font-size:1rem; margin-bottom:.4rem; }
+.curriculum-card p, .curriculum-card li { font-size:.88rem; color:#475569; }
+.curriculum-card ul { padding-left:1.1rem; margin-top:.35rem; }
+.curriculum-note { background:#eff6ff; border-left:4px solid #2563eb; padding:.9rem 1rem; border-radius:6px; margin-top:.8rem; font-size:.9rem; color:#1e3a8a; }
+.timestamp-note { margin-top:.35rem; padding:.45rem .6rem; border-radius:6px; background:#f8fafc; border:1px solid #e2e8f0; color:#475569; font-size:.78rem; }
+.timestamp-note strong { color:#334155; }
+
+</style>
+</head>
+<body>
+<header>
+  <div class="badge">OPEN-ACCESS GLOBAL SCIENCE RESOURCE &bull; RESEARCH-INFORMED</div>
+  <h1>SciFiStarters.org</h1>
+  <p class="subtitle">Research-informed film &amp; sci-fi lesson starters for primary and secondary science teachers. Find the exact scene, spot the plausible misconception, and project a ready-made starter question in seconds.</p>
+  <div class="credits-pill">Inspired by <a href="https://www.ase.org.uk/resources/school-science-review/issue-398/use-of-science-fiction-clips-lesson-starter-activities" target="_blank" rel="noopener"><em>School Science Review</em> research</a> by <strong>Justin Atherton &amp; Dr Heather King</strong> (King&rsquo;s College London) &bull; With sincere thanks to <strong>Wipro</strong> for their generous support</div>
+</header>
+<main class="container">
+  <div class="library-layout">
+    <aside class="controls" aria-label="Search and filter clips">
+      <h2 class="filter-heading">Find a starter</h2>
+      <label class="control-label" for="searchInput">Keyword search</label>
+      <input type="search" id="searchInput" placeholder="Film, topic or keyword…" autocomplete="off" />
+      <label class="control-label" for="ageFilter">Age group</label>
+      <select id="ageFilter">
+        <option value="All">All Ages (5–18)</option>
+        <option value="Primary">Primary (Ages 5–11)</option>
+        <option value="Lower Secondary">Lower Secondary (Ages 11–14)</option>
+        <option value="Upper Secondary">Upper Secondary (Ages 14–18)</option>
+      </select>
+      <label class="control-label" for="subjectFilter">Science discipline</label>
+      <select id="subjectFilter">
+        <option value="All">All Science Disciplines</option>
+        <option value="Physics">Physics</option>
+        <option value="Chemistry">Chemistry</option>
+        <option value="Biology">Biology</option>
+        <option value="Earth & Space">Earth &amp; Space</option>
+      </select>
+      <button type="button" class="reset-btn" id="resetFiltersBtn">Clear filters</button>
+    </aside>
+    <div class="library-results">
+      <div class="results-bar"><span id="resultsCount">Loading starter clips…</span><span>Tip: Use a legitimate source you have permission to show; timestamps may vary between editions.</span></div>
+      <section class="grid" id="cardsGrid"></section>
+    </div>
+  </div>
+
+  <section class="curriculum-section" id="curriculum">
+    <h2>Science Curriculum Coverage Map</h2>
+    <p class="curriculum-intro">The long-term aim is to build a balanced library of film starters across the whole science curriculum, not simply collect memorable scenes. This first framework uses the science programmes of study for England (Key Stages 1–4) as its starting point because the current library already uses KS1–KS4 age guidance.</p>
+    <div class="curriculum-grid">
+      <article class="curriculum-card"><h3>Biology</h3><ul><li>Cells, organisation and body systems</li><li>Living things, habitats and ecology</li><li>Plants, photosynthesis and bioenergetics</li><li>Inheritance, variation, evolution and genetics</li><li>Health, disease and homeostasis</li></ul><p><strong>Current examples:</strong> plants and habitats (WALL-E); DNA and fossils (Jurassic Park); genetic screening (Gattaca).</p></article>
+      <article class="curriculum-card"><h3>Chemistry</h3><ul><li>Particles, states of matter and separation</li><li>Atoms, elements, compounds and the periodic table</li><li>Bonding, structure and material properties</li><li>Chemical changes, equations and quantitative chemistry</li><li>Energy changes, rates, organic chemistry and resources</li></ul><p><strong>Current examples:</strong> rates of reaction (The Empire Strikes Back; Gremlins); hydrazine and combustion (The Martian); fusion versus chemical reactions (Spider-Man 2).</p></article>
+      <article class="curriculum-card"><h3>Physics</h3><ul><li>Forces, motion and pressure</li><li>Energy stores, transfers and resources</li><li>Electricity, circuits and electrical safety</li><li>Waves, light and sound</li><li>Magnetism, electromagnets and electromagnetism</li><li>Particle model and atomic physics</li></ul><p><strong>Current examples:</strong> forces and robotics (Big Hero 6); sound in space (Star Wars); electromagnets (You Only Live Twice); lasers and electrical safety (Goldfinger).</p></article>
+      <article class="curriculum-card"><h3>Earth &amp; Space</h3><ul><li>Earth structure, rocks and the atmosphere</li><li>Space physics, the Solar System and the universe</li><li>Climate, environmental change and natural resources</li></ul><p><strong>Current examples:</strong> Earth's internal structure and magnetic field (The Core); human impact and planetary environment (WALL-E).</p></article>
+      <article class="curriculum-card"><h3>Working Scientifically</h3><ul><li>Asking questions and developing hypotheses</li><li>Planning investigations and identifying variables</li><li>Using apparatus, measurement and safe procedures</li><li>Recording, presenting and analysing evidence</li><li>Evaluating methods, uncertainty and conclusions</li><li>Considering models, scientific explanations and ethics</li></ul><p><strong>Across the library:</strong> use each clip to evaluate evidence, test a model, identify an unrealistic claim or design a follow-up investigation.</p></article>
+    </div>
+    <div class="curriculum-note"><strong>Coverage status: framework established; full audit still in progress.</strong> The examples above show topics already represented in the current library. They do not mean every listed curriculum area is covered adequately. The next development stage is to map each individual clip to precise programme-of-study statements and identify gaps by age/key stage and discipline. The framework currently starts with England; international curriculum cross-mapping can follow.</div>
+    <p style="font-size:.82rem;color:#64748b;margin-top:.8rem;">Reference framework: <a href="https://www.gov.uk/government/publications/national-curriculum-in-england-science-programmes-of-study/national-curriculum-in-england-science-programmes-of-study" target="_blank" rel="noopener">Department for Education – National curriculum in England: science programmes of study</a>.</p>
+  </section>
+  <section class="curriculum-section" id="timestamp-standard">
+    <h2>Consistent Clip Timestamp Standard</h2>
+    <p class="curriculum-intro">All clip entries use the same time format so teachers can locate scenes quickly and compare entries consistently.</p>
+    <div class="curriculum-grid">
+      <article class="curriculum-card"><h3>Format</h3><p><strong>HH:MM:SS–HH:MM:SS</strong></p><p>Use a start and end time for the shortest useful teaching extract, not the whole sequence where a shorter moment will do.</p></article>
+      <article class="curriculum-card"><h3>Verification</h3><p>Record the film edition or release used to check the timecode (for example, a named Blu-ray, DVD or streaming edition). Intro logos, opening credits, PAL/NTSC versions and platform edits can shift timings.</p></article>
+      <article class="curriculum-card"><h3>Honest status labels</h3><p><strong>Verified:</strong> checked against a named edition.</p><p><strong>Provisional:</strong> indicative timing; teacher should check their copy.</p><p><strong>To locate:</strong> scene identified, exact in/out points not yet checked.</p></article>
+    </div>
+    <div class="curriculum-note"><strong>Current library status:</strong> timings already present in entries are retained, but are treated as provisional until checked against a named edition. Entries without precise timings are marked for location rather than given guessed timecodes. This keeps the presentation consistent without implying that an unverified time is exact.</div>
+  </section>
+
+  <section class="about-section" id="about">
+    <h2>From Classroom Research to Global Practice</h2>
+    <p><strong>SciFiStarters.org</strong> translates findings from MA Science Education research conducted by <strong>Justin Atherton</strong> and <strong>Dr Heather King</strong> at <strong>King&rsquo;s College London</strong>, published in the Association for Science Education&rsquo;s <a href="https://www.ase.org.uk/resources/school-science-review/issue-398/use-of-science-fiction-clips-lesson-starter-activities" target="_blank" rel="noopener" style="color:#2563eb;font-weight:600;"><em>School Science Review</em> (Issue 398): &ldquo;The use of science fiction clips as lesson starter activities&rdquo;</a>.</p>
+    <p>Classroom trials showed that short film clips spark high engagement, but only succeed when teachers frame them with targeted questioning to stop students accepting plausible-looking Hollywood pseudo-science. Every entry here is designed to remove teacher prep time while protecting scientific accuracy.</p>
+    <div class="wipro-callout"><strong>Thank You to Wipro:</strong> This open-access resource was made possible through the generous financial support of <strong>Wipro</strong>, who funded 70% of the MA Science Education tuition fees at King&rsquo;s College London that enabled the research behind this project. Built as a free, global tool to thank Wipro and ensure their support for teacher research translates directly into everyday help for primary and secondary science classrooms worldwide.</div>
+  </section>
+</main>
+<div class="modal" id="whiteboardModal">
+  <div class="modal-meta" id="modalMeta"></div>
+  <div class="modal-question" id="modalQuestion"></div>
+  <button class="close-btn" id="closeModalBtn">Exit Whiteboard Mode</button>
+</div>
+<script>
+var STARTER_CLIPS = [
+  { film:"WALL-E (2008)", age:"Primary", ageLabel:"Primary (Ages 5–11 / KS1–KS2)", subject:"Biology", topic:"Plants, Habitats & Human Impact", lesson:"What do plants need to survive?", whichBit:"Opening 15 minutes (~00:02:00 – 00:16:00): WALL-E compacts towers of rubbish on a barren Earth before discovering a single green seedling growing inside an old boot.", howItLinks:"Introduces what plants need to survive (water, light, soil/nutrients) and sparks discussion on recycling, waste, and caring for habitats.", misconception:"In the film, Earth has zero plants left yet still has breathable air and dust storms. In real life, plants and algae produce the oxygen animals need to breathe.", question:"What did that tiny plant inside the boot need in order to grow, and why couldn't humans stay on Earth without plants?", answer:"It needed suitable conditions including water, light, warmth and nutrients. Plants make their own food by photosynthesis and release oxygen; plants and algae support food webs and help maintain Earth's oxygen supply." },
+  { film:"Big Hero 6 (2014)", age:"Primary", ageLabel:"Primary (Ages 5–11 / KS2)", subject:"Physics", topic:"Forces, Materials & Robotics", lesson:"How do forces make robots move?", whichBit:"Hiro's microbots demonstration (~00:18:30 – 00:21:00): Thousands of tiny magnetic robots link together using a neural transmitter to build structures and carry heavy objects.", howItLinks:"Demonstrates how simple building blocks can join into strong structures and introduces magnetic attraction and engineering design.", misconception:"Tiny coin-sized batteries could not power thousands of microbots to lift heavy vehicles against gravity for long periods.", question:"How do the microbots stick together to form bridges and towers, and what everyday materials behave like solids or liquids depending on how they are packed?", answer:"In the film, the microbots are controlled to connect and form larger structures. This is a fictional example of robotics and engineering; in real life, small units can be assembled into larger structures, but they do not behave exactly as shown." },
+  { film:"The Iron Giant (1999)", age:"Primary", ageLabel:"Primary (Ages 5–11 / KS1–KS2)", subject:"Chemistry", topic:"Properties of Materials & Metals", lesson:"Why are metals useful engineering materials?", whichBit:"Scrapyard meal scene (~00:34:00 – 00:37:30): Hogarth feeds the Giant scrap metal cars and girders while avoiding non-metal objects.", howItLinks:"Helps younger learners classify materials (metals vs. plastics, rubber, and glass) and discuss properties such as strength, hardness, and magnetism.", misconception:"Eating metal wouldn't fuel a robot—machines need electrical or chemical energy sources rather than digesting solid steel.", question:"Which parts of the scrapyard cars are made of metal, and how could we test which pieces are magnetic?", answer:"Car bodies and structural parts may be made from steel or aluminium, while engines and other components contain several materials. Test pieces with a magnet: iron and most steels are attracted, while aluminium is not." },
+  { film:"You Only Live Twice (1967)", age:"Lower Secondary", ageLabel:"Lower Secondary (Ages 11–14 / KS3)", subject:"Physics", topic:"Electromagnets & Magnetic Materials", lesson:"How do electromagnets work?", whichBit:"Tokyo car chase (~01:14:20 – 01:16:05): A helicopter lowers a giant electromagnet onto a getaway car, lifts it into the air, and drops it into Tokyo Bay.", howItLinks:"Illustrates how switching an electric current on turns a coil and core into a temporary magnet that attracts steel—and releases it when switched off.", misconception:"A helicopter-portable electromagnet of that size couldn't generate a field strong enough to lift a 1.5-tonne car, and the extra weight would crash the helicopter.", question:"Why does the magnet only pick up the car when the pilot flips the switch—and why wouldn't this trick work on a modern aluminium-bodied car?", answer:"An electromagnet produces a magnetic field when electric current flows through its coil. Switching off the current greatly reduces the field. Aluminium is not ferromagnetic, so an ordinary electromagnet would not attract it strongly as it attracts iron or steel." },
+  { film:"Jurassic Park (1993)", age:"Lower Secondary", ageLabel:"Lower Secondary (Ages 11–14 / KS3)", subject:"Biology", topic:"DNA, Extinction & Fossils", lesson:"What can DNA tell us about living things?", whichBit:"Mr DNA animation tour (~00:19:30 – 00:23:00): Scientists explain extracting dinosaur blood from mosquitoes trapped in amber and filling DNA gaps with frog DNA.", howItLinks:"Introduces DNA as the genetic code stored inside cells and explains how amber preserves ancient organisms as fossils.", misconception:"DNA breaks down over tens of thousands of years—intact dinosaur DNA cannot survive 65 million years in amber, nor can frog DNA simply patch missing sequences.", question:"Where inside a cell is DNA found, and why can't scientists actually bring back dinosaurs from mosquitoes trapped in amber?", answer:"In eukaryotic cells, most DNA is found in the nucleus, with small amounts in mitochondria (and chloroplasts in plants). DNA degrades over time; intact dinosaur DNA has not been recovered from amber, and missing DNA cannot simply be replaced with frog DNA." },
+  { film:"Star Wars: Episode IV – A New Hope (1977)", age:"Lower Secondary", ageLabel:"Lower Secondary (Ages 11–14 / KS3)", subject:"Physics", topic:"Sound Waves & Vacuum of Space", lesson:"Can sound travel through space?", whichBit:"Trench Run battle (~01:45:00 – 01:52:00): X-Wing and TIE fighters roar past the camera with loud engine screeches and laser blasts in deep space.", howItLinks:"Contrasts light waves (which travel through a vacuum) with sound waves (which require particles in a medium to vibrate).", misconception:"Students frequently assume loud explosions can be heard in space because nearly every sci-fi film adds dramatic sound effects.", question:"We can clearly see the laser flashes in deep space—so why wouldn't an astronaut actually hear the TIE fighters screaming past?", answer:"Sound is a mechanical wave and needs a medium such as air, liquid or solid particles to travel through. Space is close to a vacuum, so sound would not travel from a distant spacecraft to an astronaut through space. Light can travel through a vacuum." },
+  { film:"The Core (2003)", age:"Upper Secondary", ageLabel:"Upper Secondary (Ages 14–18 / GCSE–A-Level)", subject:"Earth & Space", topic:"Structure of the Earth & Magnetic Field", lesson:"What causes Earth's magnetic field?", whichBit:"Peach demonstration briefing (~00:22:00 – 00:26:30): Dr Keyes uses a peach and a blowtorch to explain Earth's crust, mantle, molten outer core, and magnetic field.", howItLinks:"Visualises Earth's internal layers and how convection currents in the liquid iron outer core generate Earth's protective magnetosphere.", misconception:"Earth's outer core could not suddenly stop spinning, nor could a vessel survive the extreme pressures (over 3 million atmospheres) and temperatures inside the mantle.", question:"How does Earth's liquid outer core protect life on the surface from solar radiation, and how do scientists know what is inside the Earth without drilling there?", answer:"Movement of electrically conducting liquid iron in the outer core helps generate Earth's magnetic field, which deflects many charged particles from the solar wind. Scientists infer Earth's internal structure using seismic waves from earthquakes, alongside gravity, magnetic and other evidence." },
+  { film:"Gattaca (1997)", age:"Upper Secondary", ageLabel:"Upper Secondary (Ages 14–18 / GCSE–A-Level)", subject:"Biology", topic:"Genetic Screening, Inheritance & Bioethics", lesson:"How are characteristics inherited?", whichBit:"Geneticist consultation (~00:11:30 – 00:14:30): Parents select an embryo screened to eliminate predispositions to heart disease, myopia, and genetic disorders.", howItLinks:"Connects directly to pre-implantation genetic diagnosis (PGD), polygenic vs. single-gene traits, and ethical debates around genetic determinism.", misconception:"Complex human traits like intelligence, musicality, and lifespan are heavily shaped by environment and hundreds of interacting genes—not guaranteed by a single embryo screen.", question:"Which conditions can genuinely be screened for using single-gene testing today, and why doesn't DNA alone determine a person's future health or ability?", answer:"Some conditions caused by changes in a single gene can be tested for, depending on the condition and clinical context. Many traits and common diseases are influenced by many genes and environmental factors, so DNA does not determine a person's future on its own." },
+  { film:"The Martian (2015)", age:"Upper Secondary", ageLabel:"Upper Secondary (Ages 14–18 / GCSE–A-Level)", subject:"Chemistry", topic:"Stoichiometry, Hydrazine & Combustion", lesson:"How do chemical reactions release energy?", whichBit:"Making water in the Hab (~00:34:00 – 00:38:30): Mark Watney decomposes hydrazine rocket fuel over an iridium catalyst to produce hydrogen and burns it with oxygen to make water.", howItLinks:"Demonstrates conservation of mass, catalytic decomposition, exothermic combustion reactions, and limiting reactants in a real-world problem-solving context.", misconception:"Burning pure hydrogen inside a sealed habitat carries a severe explosion risk—in the film, Watney forgets to account for the hydrogen he exhales before adjusting his calculation.", question:"Write the balanced symbol equation for hydrogen reacting with oxygen to form water—and explain why Watney's calculation nearly blew up the habitat.", answer:"The balanced equation is 2H₂ + O₂ → 2H₂O. The reaction releases energy. Hydrogen and oxygen can form an explosive mixture, so controlling quantities, ignition sources and ventilation is essential; the film dramatises the danger of handling hydrogen in a confined habitat." },
+  {
+    film:"Star Wars: Episode V – The Empire Strikes Back (1980)",
+    age:"Upper Secondary",
+    ageLabel:"Upper Secondary (Ages 14–18 / GCSE)",
+    subject:"Chemistry",
+    topic:"Rates of Reaction & Collision Theory", lesson:"How does the asteroid scene model collision theory?",
+    whichBit:"Asteroid field chase: The Millennium Falcon weaves through a dense field of moving and colliding asteroids while escaping Imperial pursuit. Check the timestamp against the version you use.",
+    howItLinks:"The asteroid field is a visual analogy for collision theory. Faster-moving asteroids can represent particles with greater kinetic energy at higher temperature; more asteroids in a given space can represent greater concentration; and smaller fragments can represent greater surface area of a solid reactant.",
+    misconception:"This is an analogy, not a literal chemical reaction. Higher temperature increases particles’ average kinetic energy; higher concentration increases collision frequency; and breaking a solid into smaller pieces increases its exposed surface area.",
+    question:"How does the asteroid scene model the factors that affect the rate of a chemical reaction?",
+    answer:"The scene can model collision theory: faster-moving asteroids represent particles moving faster at higher temperature; more asteroids in the same space represent higher concentration and more frequent collisions; and smaller, broken-up asteroids represent a larger surface area of a solid reactant, allowing more collisions. Successful reaction collisions must also have enough energy to overcome the activation energy."
+  },
+  {
+    film:"Spider-Man 2 (2004)",
+    searchTerms:"Spiderman Spider Man",
+    age:"Upper Secondary",
+    ageLabel:"Upper Secondary (Ages 14–18 / GCSE)",
+    subject:"Chemistry",
+    topic:"Rates of Reaction, Energy & Nuclear Fusion", lesson:"How does the nuclear fusion scene model the effect of temperature on particles?",
+    whichBit:"Dr Otto Octavius's fusion experiment (~00:33:07 – 00:39:03): Octavius initiates a fusion reaction in front of an audience. The energy output rises sharply, the experiment becomes unstable, and the containment system fails. Check the timestamp against your edition.",
+    howItLinks:"The scene provides a dramatic starting point for discussing how scientists monitor reaction rates and why controlling energy release matters. Students can compare the film's rapidly increasing energy output with factors that affect the rate of chemical reactions, such as temperature, concentration and surface area.",
+    misconception:"Nuclear fusion is not a chemical reaction. It involves atomic nuclei joining together, whereas chemical reactions involve rearrangement of electrons and chemical bonds. The film's spectacular runaway energy release should not be taken as a realistic demonstration of GCSE collision theory or of how an ordinary chemical reaction behaves.",
+    question:"Octavius's experiment releases energy at an increasing rate. How could scientists control the rate of a chemical reaction, and why is nuclear fusion fundamentally different from a chemical reaction?",
+    answer:"For many chemical reactions, increasing temperature gives particles more kinetic energy, so a greater proportion of collisions have enough energy to overcome the activation energy. Increasing concentration (or gas pressure) increases collision frequency, while increasing a solid's surface area exposes more particles for collisions. A catalyst provides an alternative pathway with a lower activation energy. However, Octavius's experiment is nuclear fusion: light atomic nuclei join to form a heavier nucleus, releasing energy. It is a nuclear process, not a chemical reaction, so GCSE collision theory does not directly explain the fusion process."
+  },
+  {
+    film:"Gremlins (1984)",
+    age:"Upper Secondary",
+    ageLabel:"Upper Secondary (Ages 14–18 / GCSE)",
+    subject:"Chemistry",
+    topic:"Rates of Reaction & Collision Theory", lesson:"How does the effect of the swimming pool link with concentration?",
+    whichBit:"First clip: water from a small jar spills onto Gizmo, causing five smaller creatures to emerge from his back (~00:25:24 \u2013 00:27:10). Check the timestamp against your edition.",
+    howItLinks:"After introducing collision theory, use the two Gremlins clips to focus on concentration. In this first clip, a small amount of water produces five new creatures. Ask students how the fictional effect might be used as an analogy for particle collisions, then compare it with the much larger event in the swimming pool clip.",
+    misconception:"The film presents a fictional process, not a real chemical reaction. The swimming-pool scene does not show an increase in concentration: both the number of particles and the volume increase. A higher concentration means more particles in a given volume, not simply more particles because there is more liquid. For a fair test, keep the solution volume constant while changing concentration.",
+    question:"How do the two Gremlins clips link to collision theory, and does the much larger swimming-pool effect mean that the concentration has increased?",
+    answer:"The two clips present a fictional process that can be used as an analogy for discussing collision theory. The pool contains a much larger number of creatures, suggesting more particles and potentially more collisions overall, but the volume is also much larger. This is not an increase in concentration. Concentration describes the number of particles in a given volume. In the lesson investigation, students prepared 50 cm\u00b3 sodium thiosulphate solutions; higher concentrations contained more sodium thiosulphate particles, but the solution volume was kept constant while concentration changed."
+  },
+  {
+    film:"Gremlins (1984)",
+    age:"Upper Secondary",
+    ageLabel:"Upper Secondary (Ages 14–18 / GCSE)",
+    subject:"Chemistry",
+    topic:"Rates of Reaction & Collision Theory", lesson:"How does the effect of the swimming pool link with concentration?",
+    whichBit:"Second clip, later in the film: one of the Mogwai jumps into a swimming pool, producing a far larger number of creatures. Check and record the timestamp against your edition.",
+    howItLinks:"The much larger fictional effect invites students to consider whether a larger number of particles means a higher concentration. Link the scene to collision theory: more particles can mean more collisions overall, but concentration depends on the number of particles in a given volume.",
+    misconception:"The film presents a fictional process, not a real chemical reaction. The swimming-pool scene does not show an increase in concentration: both the number of particles and the volume increase. A higher concentration means more particles in a given volume, not simply more particles because there is more liquid. For a fair test, keep the solution volume constant while changing concentration.",
+    question:"The swimming-pool scene produces far more creatures. Does this mean the concentration has increased? Explain your answer using particles and volume.",
+    answer:"The two clips present a fictional process that can be used as an analogy for discussing collision theory. The pool contains a much larger number of creatures, suggesting more particles and potentially more collisions overall, but the volume is also much larger. This is not an increase in concentration. Concentration describes the number of particles in a given volume. In the lesson investigation, students prepared 50 cm\u00b3 sodium thiosulphate solutions; higher concentrations contained more sodium thiosulphate particles, but the solution volume was kept constant while concentration changed."
+  },
+
+  {
+    film:"Goldfinger (1964)",
+    searchTerms:"James Bond 007 laser",
+    age:"Lower Secondary",
+    ageLabel:"Lower Secondary (Ages 11–14 / KS3)",
+    subject:"Physics",
+    topic:"Light, Lasers & Straight-Line Propagation",
+    lesson:"Light travels in straight lines",
+    whichBit:"Laser table scene: Goldfinger threatens Bond with a powerful laser that moves towards him. Check the timestamp against the version you use.",
+    howItLinks:"A striking prompt for discussing how light travels, how a laser produces a narrow beam, and how energy carried by light can be absorbed by materials.",
+    misconception:"A laser beam is not a solid blade that mechanically cuts through material. Whether a laser can cut something depends on its power, wavelength, focus, exposure time and the material's ability to absorb the energy. The scene greatly exaggerates how quickly and cleanly a person could be cut.",
+    question:"How can a beam of light cut or damage a material, and what properties would a laser need to do this?",
+    answer:"A laser concentrates electromagnetic energy into a narrow beam. If a material absorbs enough of that energy, it heats up and may melt, burn or vaporise. Cutting depends on factors including laser power, focus, exposure time and the material; ordinary light does not behave like a physical blade."
+  },
+  {
+    film:"Goldfinger (1964)",
+    searchTerms:"James Bond 007 Oddjob hat electrocution",
+    age:"Upper Secondary",
+    ageLabel:"Upper Secondary (Ages 14–18 / GCSE)",
+    subject:"Physics",
+    topic:"Electricity, Current & Electrical Safety",
+    lesson:"Complete circuits",
+    whichBit:"Oddjob's electrocution: Oddjob's metal-rimmed hat becomes part of an electrical circuit and he is electrocuted when the circuit is completed. Check the timestamp against the version you use.",
+    howItLinks:"Use the scene to explore what completes an electrical circuit, how current can pass through a conducting path, and why contact with live electrical equipment is dangerous.",
+    misconception:"The danger is not determined simply by the number of volts. The current through the body, its path, duration of contact and the body's resistance all matter. The scene should not be used to suggest that a particular voltage always produces the same injury.",
+    question:"What must happen for an electric current to flow through Oddjob, and why can contact with an electrical circuit be dangerous?",
+    answer:"A current flows when there is a complete conducting path and a potential difference that drives charge around it. The human body can conduct electricity, especially when skin is wet or damaged. The severity of an electric shock depends on current, its route through the body and how long contact lasts, as well as the conditions and voltage."
+  },
+  {
+    film:"Goldfinger (1964)",
+    searchTerms:"James Bond 007 bath electrocution",
+    age:"Lower Secondary",
+    ageLabel:"Lower Secondary (Ages 11–14 / KS3)",
+    subject:"Physics",
+    topic:"Electrical Conductors, Insulators & Dissolved Ions",
+    lesson:"Electrical safety",
+    whichBit:"Opening bath electrocution scene: a character is electrocuted while in a bath. Check the timestamp against the version you use.",
+    howItLinks:"The scene can introduce electrical conduction in liquids and the role of dissolved ions. It is an opportunity to distinguish pure water from the water normally found in homes.",
+    misconception:"Pure water is a very poor conductor compared with ordinary tap water. Tap water conducts because it contains dissolved ions; it is not accurate to say that all water conducts electricity equally well.",
+    question:"Why is water from a bath or tap more electrically conductive than very pure water, and why is electricity near water so dangerous?",
+    answer:"Dissolved substances in tap and bath water provide mobile ions that carry electric charge. Very pure water contains very few ions and is a poor conductor, although it is not a perfect insulator. Electricity near water is dangerous because water containing dissolved ions can provide a path for current through a person."
+  },
+  {
+    film:"Goldfinger (1964)",
+    searchTerms:"James Bond 007 car crushing electromagnet",
+    age:"Lower Secondary",
+    ageLabel:"Lower Secondary (Ages 11–14 / KS3)",
+    subject:"Physics",
+    topic:"Electromagnets & Magnetic Materials",
+    lesson:"Uses of electromagnets",
+    whichBit:"Car-crushing scene: a powerful electromagnet is used in the process of lifting and crushing a car. Check the timestamp against the version you use.",
+    howItLinks:"Introduces electromagnets in industrial settings and invites students to consider which parts of a vehicle are attracted to a magnet.",
+    misconception:"An electromagnet does not attract every metal. It strongly attracts ferromagnetic materials such as iron and many steels, but not aluminium, copper or most other non-magnetic metals.",
+    question:"Would an electromagnet lift every part of a car equally well? Which materials in a car would it attract?",
+    answer:"An electromagnet strongly attracts iron and many types of steel. It would not strongly attract aluminium, copper, glass, plastic or rubber. A car contains a mixture of materials, so the magnet would act on some components much more strongly than others."
+  },
+  {
+    film:"Thunderball (1965)",
+    searchTerms:"James Bond 007 jetpack rocket pack",
+    age:"Lower Secondary",
+    ageLabel:"Lower Secondary (Ages 11–14 / KS3)",
+    subject:"Physics",
+    topic:"Forces, Thrust & Newton's Third Law",
+    lesson:"Forces, thrust and propulsion",
+    whichBit:"Jetpack scene: Bond uses a rocket-powered jetpack to rise into the air and move away. Check the timestamp against the version you use.",
+    howItLinks:"A visual introduction to thrust and balanced forces. Students can consider how expelling hot gas downwards can produce an upward force on the jetpack and its wearer.",
+    misconception:"A jetpack cannot simply lift a person because flames are visible. It needs sufficient thrust to overcome the combined weight of the person and equipment, as well as enough fuel and control to remain stable.",
+    question:"What force pushes Bond upwards when he uses the jetpack, and what must be true about that force for him to rise?",
+    answer:"The jetpack produces thrust by expelling gas downwards. By Newton's third law, the gas exerts an equal and opposite force upwards on the jetpack. To accelerate upwards, the thrust must be greater than the combined weight of Bond and the equipment; if the forces are balanced, he would not accelerate."
+  },
+  {
+    film:"On Her Majesty's Secret Service (1969)",
+    searchTerms:"James Bond 007 bobsleigh bob sleigh",
+    age:"Upper Secondary",
+    ageLabel:"Upper Secondary (Ages 14–18 / GCSE)",
+    subject:"Physics",
+    topic:"Momentum, Impulse & Collisions",
+    lesson:"Conservation of momentum",
+    whichBit:"Bobsleigh sequence: Bond is involved in a fast-moving bobsleigh chase. Use the sequence to discuss changes in speed and direction, and check the timestamp against your edition.",
+    howItLinks:"The sequence provides a context for momentum and the forces involved when a moving object changes speed or direction. It can lead into impulse and the effect of collision time.",
+    misconception:"A person does not experience a change in momentum without a force. A very rapid change in momentum can involve a large force, so surviving a sudden stop or collision is not guaranteed simply because someone is fit or protected.",
+    question:"Why can a sudden change in a bobsleigh's speed or direction produce such a large force on its passengers?",
+    answer:"Momentum is mass multiplied by velocity. A change in momentum occurs when a resultant force acts. For a given change in momentum, reducing the time taken increases the average force (impulse = change in momentum). Padding and other safety features can increase the time over which a person stops and reduce the average force."
+  },
+  {
+    film:"Live and Let Die (1973)",
+    searchTerms:"James Bond 007 magnetic watch crocodiles boat",
+    age:"Lower Secondary",
+    ageLabel:"Lower Secondary (Ages 11–14 / KS3)",
+    subject:"Physics",
+    topic:"Magnetism & Magnetic Materials",
+    lesson:"Electromagnets",
+    whichBit:"Magnetic watch and boat scene: Bond tries to use his magnetic watch to pull a boat towards him before escaping across crocodiles. Check the timestamp against the version you use.",
+    howItLinks:"A memorable way to explore magnetic attraction and test which materials are attracted to a magnet.",
+    misconception:"A magnet does not attract every metal. Strong attraction is expected with ferromagnetic materials such as iron, nickel, cobalt and many steels, but not with metals such as aluminium or copper. A small watch magnet would also have limited strength and range.",
+    question:"Which materials could Bond's magnetic watch attract, and why would it not pull every metal object towards him?",
+    answer:"A magnet strongly attracts ferromagnetic materials, including iron, nickel, cobalt and many steels. It does not strongly attract metals such as aluminium or copper. The force also becomes weaker with distance, so a small watch magnet would not be able to pull a heavy boat over a substantial distance."
+  },
+  {
+    film:"The Spy Who Loved Me (1977)",
+    searchTerms:"James Bond 007 ski chase parachute",
+    age:"Lower Secondary",
+    ageLabel:"Lower Secondary (Ages 11–14 / KS3)",
+    subject:"Physics",
+    topic:"Friction, Air Resistance & Pressure",
+    lesson:"Friction",
+    whichBit:"Ski chase and parachute sequence: Bond skis down a mountain before deploying a parachute. Check the timestamp against the version you use.",
+    howItLinks:"The ski sequence can prompt discussion of friction and motion on snow; the parachute provides a way into air resistance. Ski surface area also offers a link to pressure.",
+    misconception:"Skis do not make a person weightless or remove friction. Their broad surface spreads a person's weight over a larger area, reducing pressure on the snow. Air resistance depends on factors including speed, shape and cross-sectional area.",
+    question:"How do skis help Bond move over snow without sinking as deeply, and what changes when he opens his parachute?",
+    answer:"Skis spread the person's weight over a larger area, reducing pressure on the snow. Friction between skis and snow still acts, although the amount depends on the surfaces and conditions. A parachute greatly increases air resistance; as the downward weight and upward drag approach balance, the rate of falling becomes more nearly constant."
+  },
+  {
+    film:"The Spy Who Loved Me (1977)",
+    searchTerms:"James Bond 007 Jaws electromagnet",
+    age:"Lower Secondary",
+    ageLabel:"Lower Secondary (Ages 11–14 / KS3)",
+    subject:"Physics",
+    topic:"Electromagnets, Magnetic Materials & Magnetic Fields",
+    lesson:"Electromagnets",
+    whichBit:"Jaws and the electromagnet: Jaws encounters a powerful electromagnet. Check the timestamp and exact moment against the version you use.",
+    howItLinks:"The scene can be used to identify magnetic materials and investigate how the strength of an electromagnet can be changed.",
+    misconception:"An electromagnet will not attract every metal object. Its strength depends on factors such as the current, number of turns in the coil and the core material; the scene's effects are exaggerated.",
+    question:"What would Jaws's metal teeth need to be made from to be strongly attracted to an electromagnet, and how could the electromagnet be made stronger?",
+    answer:"The teeth would need to contain a ferromagnetic material such as iron or a suitable steel. An electromagnet can be made stronger by increasing the current, increasing the number of turns in its coil, or using an appropriate soft iron core. It would not strongly attract all metals."
+  },
+  {
+    film:"Moonraker (1979)",
+    searchTerms:"James Bond 007 opening skydive Jaws circus tent",
+    age:"Upper Secondary",
+    ageLabel:"Upper Secondary (Ages 14–18 / GCSE)",
+    subject:"Physics",
+    topic:"Terminal Velocity, Air Resistance & Streamlining",
+    lesson:"Terminal velocity",
+    whichBit:"Opening skydive: Bond and Jaws fall through the air during a parachute-free sequence. The later landing on a circus tent can also be discussed. Check the timestamp against your edition.",
+    howItLinks:"A dramatic context for gravitational force, air resistance and terminal velocity. Students can consider how speed, body position and parachute deployment affect a falling person's motion.",
+    misconception:"A person does not continue accelerating indefinitely while falling through air. As speed increases, air resistance increases; terminal velocity is reached when drag balances weight. A circus tent would not guarantee a safe landing.",
+    question:"Why does a skydiver's acceleration decrease as they fall faster, and would landing on a circus tent necessarily make the landing safe?",
+    answer:"As a skydiver speeds up, air resistance increases. When drag equals weight, the resultant force is zero and the skydiver falls at terminal velocity. A tent might deform and increase the stopping time, but whether it could safely stop someone depends on its construction, height, tension and the person's speed; the film's landing is highly unrealistic."
+  },
+
+  {
+    film:"Moonraker (1979)",
+    searchTerms:"James Bond 007 centrifuge trainer g force",
+    age:"Upper Secondary",
+    ageLabel:"Upper Secondary (Ages 14–18 / GCSE)",
+    subject:"Physics",
+    topic:"Kinetic Energy, Circular Motion & G-Force",
+    lesson:"Kinetic energy",
+    whichBit:"Centrifuge trainer scene: Bond is spun in a training centrifuge and experiences increasing g-force. Check the timestamp against the version you use.",
+    howItLinks:"The scene can prompt discussion of motion in a circle, the force needed to keep an object moving in a circular path, and how speed relates to kinetic energy. The age range is a suggested starting point and should be reviewed for the class.",
+    misconception:"No misconception alert was supplied for this idea in the source document; one should be developed and checked before classroom use.",
+    question:"As the centrifuge spins faster, what happens to Bond's speed, kinetic energy and the force needed to keep him moving in a circle?",
+    answer:"If the radius stays the same, a higher rotational speed means a higher tangential speed and greater kinetic energy. The required centripetal force also increases with the square of speed for a fixed mass and radius. The sensation commonly described as g-force is associated with the acceleration and contact forces acting on the body. This teaching explanation is an editorial addition to develop the lesson idea."
+  },
+  {
+    film:"For Your Eyes Only (1981)",
+    searchTerms:"James Bond 007 mountain climb cliff",
+    age:"Lower Secondary",
+    ageLabel:"Lower Secondary (Ages 11–14 / KS3)",
+    subject:"Physics",
+    topic:"Gravitational Potential Energy & Energy Transfers",
+    lesson:"Gravitational Potential energy",
+    whichBit:"Mountain-climbing sequence: Bond climbs a steep mountain face. Use the ascent and any falls or changes in height to discuss energy transfers. Check the timestamp against the version you use.",
+    howItLinks:"A clear visual context for gravitational potential energy. Raising a person increases the energy stored in the gravitational field of the Earth-person system.",
+    misconception:"Gravitational potential energy is not simply 'used up' during a climb. Energy is transferred, mainly from chemical energy stores in the climber's muscles, to the gravitational potential energy store and to thermal stores.",
+    question:"How does Bond's gravitational potential energy change as he climbs, and where does the energy come from?",
+    answer:"As Bond gains height, the gravitational potential energy store of the Earth-Bond system increases. The energy comes from chemical energy stores in his body, transferred by his muscles. Some energy is also dissipated to the surroundings as thermal energy. Near Earth's surface, the change in gravitational potential energy can be calculated using ΔEₚ = mgh."
+  },
+  {
+    film:"Licence to Kill (1989)",
+    searchTerms:"James Bond 007 pressure decompression Krest",
+    age:"Upper Secondary",
+    ageLabel:"Upper Secondary (Ages 14–18 / GCSE–A-Level)",
+    subject:"Physics",
+    topic:"Pressure, Gas Laws & Effects on the Human Body",
+    lesson:"Pressure",
+    whichBit:"Pressure-chamber scene involving Milton Krest: a sudden change in pressure causes a dramatic physical effect. This is an intense scene; preview it for age suitability and check the timestamp against your edition.",
+    howItLinks:"The scene can introduce pressure and the effects of rapid pressure changes. It can lead to discussion of gas pressure, pressure differences and why controlled decompression matters.",
+    misconception:"The film's visual effect is not a reliable demonstration of what happens to a human body during decompression. Real effects depend on the pressure change, rate of change, gases involved and the body's exposure; the scene is highly sensationalised.",
+    question:"Why can a rapid change in pressure be dangerous, and why should the scene not be treated as a scientifically accurate demonstration of decompression?",
+    answer:"Pressure differences can cause gases to expand or contract and can affect air spaces in the body. The effects depend on the size and speed of the pressure change and the conditions involved. The film dramatises the outcome and should be used to raise questions about pressure, not as a literal account of human physiology."
+  },
+  {
+    film:"GoldenEye (1995)",
+    searchTerms:"James Bond 007 bungee jump dam",
+    age:"Lower Secondary",
+    ageLabel:"Lower Secondary (Ages 11–14 / KS3)",
+    subject:"Physics",
+    topic:"Gravitational Potential Energy & Kinetic Energy",
+    lesson:"Gravitational Potential energy",
+    whichBit:"Opening bungee jump from the dam: Bond falls from a great height on an elastic cord. Check the timestamp against the version you use.",
+    howItLinks:"The sequence provides a visual introduction to energy stores and transfers as Bond falls and the cord stretches.",
+    misconception:"The energy does not disappear when the cord stretches. Gravitational potential energy is transferred into kinetic energy and then into the elastic potential energy store of the cord, with some energy dissipated to the surroundings.",
+    question:"As Bond falls on the bungee cord, how are energy stores transferred, and what stops him reaching the ground?",
+    answer:"As Bond falls, gravitational potential energy is transferred to kinetic energy. As the cord stretches, energy is transferred to its elastic potential energy store. The tension in the cord increases and eventually brings him to a momentary stop before pulling him back upwards. Some energy is dissipated as thermal energy and sound."
+  },
+  {
+    film:"GoldenEye (1995)",
+    searchTerms:"James Bond 007 plane falls off mountain catch up",
+    age:"Upper Secondary",
+    ageLabel:"Upper Secondary (Ages 14–18 / GCSE)",
+    subject:"Physics",
+    topic:"Forces, Air Resistance & Streamlining",
+    lesson:"gravitational energy to kinetic",
+    whichBit:"Plane sequence: Bond attempts to reach and board an aircraft after it has begun falling from a mountain. Check the timestamp against the version you use.",
+    howItLinks:"The scene can prompt analysis of relative motion, acceleration, gravity and air resistance. Students can consider whether a person could catch an aircraft that has already started moving.",
+    misconception:"A person cannot assume they can catch a falling aircraft by diving after it. The relative speeds, acceleration, drag, orientation and available time matter; the film sequence is an extreme action-film exaggeration.",
+    question:"If an aircraft starts falling before Bond jumps, what would determine whether he could catch it, and how would air resistance affect his motion?",
+    answer:"It would depend on the aircraft's and Bond's positions, velocities and accelerations, as well as the time available. Both experience gravitational acceleration, but air resistance depends on speed, shape and cross-sectional area. Streamlining can reduce drag, but it cannot guarantee that Bond could catch the aircraft."
+  },
+  {
+    film:"Die Another Day (2002)",
+    searchTerms:"James Bond 007 genetics laboratory genetic engineering",
+    age:"Upper Secondary",
+    ageLabel:"Upper Secondary (Ages 14–18 / GCSE–A-Level)",
+    subject:"Biology",
+    topic:"Genetic Engineering, DNA & Inherited Characteristics",
+    lesson:"Genetic engineering",
+    whichBit:"Genetics laboratory sequence: the film introduces genetic technology and the manipulation of inherited characteristics. Check the timestamp and the exact scene against the version you use.",
+    howItLinks:"Use the scene to discuss what genes are, how DNA carries genetic information, and what genetic engineering can and cannot achieve.",
+    misconception:"Changing or analysing DNA does not allow scientists to redesign a person instantly or precisely control every characteristic. Many human characteristics are influenced by many genes and environmental factors.",
+    question:"What is the relationship between DNA, genes and inherited characteristics, and why can't scientists simply choose or change every human characteristic?",
+    answer:"DNA is the molecule that carries genetic information, and genes are sections of DNA that contribute to the production of functional products such as proteins. Some characteristics are strongly influenced by a single gene, but many are affected by multiple genes and environmental factors. Genetic technologies have real applications, but the film exaggerates their precision and capabilities."
+  },
+  {
+    film:"Die Another Day (2002)",
+    searchTerms:"James Bond 007 laser ice palace",
+    age:"Lower Secondary",
+    ageLabel:"Lower Secondary (Ages 11–14 / KS3)",
+    subject:"Physics",
+    topic:"Light, Lasers & Straight-Line Propagation",
+    lesson:"Light travels in straight lines",
+    whichBit:"Laser scene: a laser is used as part of the film's dramatic action. Check the timestamp and exact scene against the version you use.",
+    howItLinks:"The scene can introduce lasers as concentrated beams of light and prompt discussion of how light travels and interacts with materials.",
+    misconception:"A laser is not a solid beam or an invisible cutting blade. Its effect depends on the energy delivered to a material and how that material absorbs the light; the film exaggerates the speed and ease of the effects.",
+    question:"How does a laser beam transfer energy to a material, and why would the effect depend on the material it hits?",
+    answer:"A laser produces a concentrated beam of electromagnetic radiation. A material that absorbs the light can heat up; with sufficient power and exposure it may melt, burn or vaporise. Different materials absorb and reflect different wavelengths, so the effect is not the same for every surface."
+  },
+  {
+    film:"Casino Royale (2006)",
+    searchTerms:"James Bond 007 poisoning poker heart",
+    age:"Upper Secondary",
+    ageLabel:"Upper Secondary (Ages 14–18 / GCSE–A-Level)",
+    subject:"Biology",
+    topic:"Poisons, Homeostasis & Negative Feedback",
+    lesson:"Homeostasis – negative feedback",
+    whichBit:"Poisoning scene: Bond is poisoned during the poker sequence and experiences a serious physiological reaction. Check the timestamp against the version you use.",
+    howItLinks:"The scene offers a starting point for discussing how toxins can disrupt normal body functions and how the body regulates internal conditions through homeostasis.",
+    misconception:"The body does not have a universal antidote or a single negative-feedback response that neutralises every poison. Different toxins affect different tissues and processes, and treatment depends on the substance and dose.",
+    question:"How can a poison disrupt the body's normal functioning, and how is this different from the way negative feedback helps maintain homeostasis?",
+    answer:"A poison can interfere with enzymes, receptors, nerve signalling, oxygen transport or other vital processes, depending on the substance. Negative feedback helps maintain stable internal conditions by detecting a change and triggering responses that counteract it. It does not automatically neutralise toxins; appropriate medical treatment depends on the poison involved."
+  },
+  {
+    film:"Quantum of Solace (2008)",
+    searchTerms:"James Bond 007 parachute fall air resistance",
+    age:"Lower Secondary",
+    ageLabel:"Lower Secondary (Ages 11–14 / KS3)",
+    subject:"Physics",
+    topic:"Air Resistance, Terminal Velocity & Parachutes",
+    lesson:"Air resistance",
+    whichBit:"Parachute sequence: Bond falls before opening a parachute late in the descent. Check the timestamp against the version you use.",
+    howItLinks:"A useful prompt for considering how air resistance changes with speed and how opening a parachute increases drag to slow a falling person.",
+    misconception:"Opening a parachute does not stop a person instantly. The parachute increases air resistance, producing a resultant upward force that slows the fall; whether there is enough time and height to do so safely is crucial.",
+    question:"Why does opening a parachute slow a falling person, and what factors determine whether Bond has left it too late?",
+    answer:"A parachute greatly increases the area interacting with the air and therefore increases drag. Immediately after it opens, drag can become greater than weight, producing an upward resultant force and slowing the person down. The time and height needed to slow safely depend on speed, parachute design, deployment and conditions. The scene should prompt students to question whether there is enough distance to decelerate."
+  }
+];
+
+var grid = document.getElementById("cardsGrid");
+var searchInput = document.getElementById("searchInput");
+var ageFilter = document.getElementById("ageFilter");
+var subjectFilter = document.getElementById("subjectFilter");
+var resultsCount = document.getElementById("resultsCount");
+
+// Normalise punctuation and simple singular/plural forms so searches such as
+// "rate" and "rates", or "reaction" and "reactions", find the same clips.
+function normaliseSearchText(value) {
+  return value.toLowerCase()
+    .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean)
+    .map(function(word) {
+      if (word.length > 4 && word.slice(-3) === "ies") return word.slice(0, -3) + "y";
+      if (word.length > 5 && word.slice(-4) === "sses") return word.slice(0, -2);
+      if (word.length > 4 && /(ches|shes|xes|zes)$/.test(word)) return word.slice(0, -2);
+      if (word.length > 3 && word.slice(-1) === "s" && word.slice(-2) !== "ss") return word.slice(0, -1);
+      return word;
+    })
+    .join(" ");
+}
+
+function renderCards() {
+  var q = normaliseSearchText(searchInput.value);
+  var queryWords = q ? q.split(" ") : [];
+  var a = ageFilter.value;
+  var s = subjectFilter.value;
+  var filtered = [];
+  for (var idx = 0; idx < STARTER_CLIPS.length; idx++) {
+    var item = STARTER_CLIPS[idx];
+    var matchesAge = (a === "All" || item.age === a);
+    var matchesSub = (s === "All" || item.subject === s);
+    var text = " " + normaliseSearchText((item.film + " " + (item.searchTerms || "")) + " " + item.topic + " " + (item.lesson || "") + " " + item.whichBit + " " + item.howItLinks + " " + item.misconception + " " + item.question + " " + (item.answer || "")) + " ";
+    var matchesQ = queryWords.every(function(word) {
+      return text.indexOf(" " + word + " ") !== -1;
+    });
+    if (matchesAge && matchesSub && matchesQ) {
+      filtered.push(item);
+    }
+  }
+  resultsCount.textContent = "Showing " + filtered.length + " starter " + (filtered.length === 1 ? "clip" : "clips");
+  if (filtered.length === 0) {
+    grid.innerHTML = '<p style="grid-column:1/-1;text-align:center;padding:2rem;color:#64748b;">No starter clips match that filter yet.</p>';
+    return;
+  }
+  var html = "";
+  for (var j = 0; j < filtered.length; j++) {
+    var c = filtered[j];
+    html += '<article class="card"><div>' +
+      '<div class="tags"><span class="tag">' + c.subject + '</span><span class="tag age">' + c.ageLabel + '</span></div>' +
+      '<h2>' + c.film + '</h2>' +
+      '<div class="topic-line">' + c.topic + '</div>' +
+      (c.lesson ? '<div class="section-block"><span class="section-label">Suggested Science Lesson</span>' + c.lesson + '</div>' : '') +
+      '<div class="section-block"><span class="section-label">Which Bit (Scene &amp; Timestamp)</span>' + c.whichBit + '<div class="timestamp-note"><strong>Timestamp status:</strong> Provisional — check against the edition you are using. A time is only marked verified once its release/version has been recorded.</div></div>' +
+      '<div class="section-block"><span class="section-label">How It Links to the Science</span>' + c.howItLinks + '</div>' +
+      '<div class="misconception-box"><strong>Plausible Misconception Alert (SSR Framework)</strong>' + c.misconception + '</div>' +
+      '</div><div>' +
+      '<div class="question-box"><strong>Framing Question (Classroom Starter)</strong>"' + c.question + '"</div>' +
+      '<details class="answer-box"><summary>Reveal suggested answer</summary><p>' + (c.answer || "A suggested answer has not yet been added for this starter.") + '</p></details>' +
+      '<button class="project-btn" data-index="' + j + '">Project Question Full-Screen</button>' +
+      '</div></article>';
+  }
+  grid.innerHTML = html;
+  var btns = grid.querySelectorAll(".project-btn");
+  for (var k = 0; k < btns.length; k++) {
+    (function(clip) {
+      btns[k].addEventListener("click", function() {
+        document.getElementById("modalMeta").textContent = clip.film + " • " + clip.topic;
+        document.getElementById("modalQuestion").textContent = '"' + clip.question + '"';
+        document.getElementById("whiteboardModal").classList.add("open");
+      });
+    })(filtered[k]);
+  }
+}
+
+document.getElementById("closeModalBtn").addEventListener("click", function() {
+  document.getElementById("whiteboardModal").classList.remove("open");
+});
+document.addEventListener("keydown", function(e) {
+  if (e.key === "Escape") document.getElementById("whiteboardModal").classList.remove("open");
+});
+searchInput.addEventListener("input", renderCards);
+searchInput.addEventListener("keyup", renderCards);
+searchInput.addEventListener("search", renderCards);
+ageFilter.addEventListener("change", renderCards);
+subjectFilter.addEventListener("change", renderCards);
+document.getElementById("resetFiltersBtn").addEventListener("click", function() { searchInput.value = ""; ageFilter.value = "All"; subjectFilter.value = "All"; renderCards(); });
+renderCards();
+</script>
+</body>
+</html>
